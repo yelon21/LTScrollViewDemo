@@ -311,7 +311,10 @@
     self.centerImageV.frame = CGRectMake(width, 0.0, width, height);
     self.rightImageV.frame = CGRectMake(width+width, 0.0, width, height);
     
-    [self updateImagesContent];
+    if (pagesCount > 0) {
+        
+        [self updateImagesContent];
+    }
 }
 
 - (void)updateImagesContent{
@@ -357,6 +360,9 @@
 #pragma mark click Action
 - (void)scrollContentClick:(UIControl *)control{
 
+    if (pagesCount<1) {
+        return;
+    }
     if ([self.delegate respondsToSelector:@selector(ltImageScrollView:clickContentAtIndex:)]) {
         
         [self.delegate ltImageScrollView:self clickContentAtIndex:self.centerPageIndex];
