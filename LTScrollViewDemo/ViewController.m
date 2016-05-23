@@ -24,10 +24,7 @@
     listArray = @[@"http://n.7k7kimg.cn/2014/1209/1418109581623.gif",
                   @"http://pic6.nipic.com/20100323/4214896_084058018310_2.jpg",
                   @"http://www.bz55.com/uploads/allimg/150311/139-150311110321-50.jpg",
-                  @"http://xcmn.jsyks.com/photo/img.xgo-img.com.cn/pics/1505/1504435.jpg",
-                  @"111.gif",
-                  @"222.png",
-                  @"333.png"];
+                  @"http://xcmn.jsyks.com/photo/img.xgo-img.com.cn/pics/1505/1504435.jpg"];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     

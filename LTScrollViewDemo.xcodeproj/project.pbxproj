@@ -15,8 +15,8 @@
 		630030D71CD7505800A79954 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630030D51CD7505800A79954 /* LaunchScreen.storyboard */; };
 		630030E21CD7505800A79954 /* LTScrollViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630030E11CD7505800A79954 /* LTScrollViewDemoTests.m */; };
 		630030ED1CD7505800A79954 /* LTScrollViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630030EC1CD7505800A79954 /* LTScrollViewDemoUITests.m */; };
-		63FB1CD91CD77EDA0034EA2E /* LTImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FB1CD81CD77EDA0034EA2E /* LTImageScrollView.m */; };
-		63FB1CDC1CD77EFA0034EA2E /* LTImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FB1CDB1CD77EFA0034EA2E /* LTImageView.m */; };
+		63B24E1C1CF2CFB100DD6199 /* LTImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B24E191CF2CFB100DD6199 /* LTImageScrollView.m */; };
+		63B24E1D1CF2CFB100DD6199 /* LTImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B24E1B1CF2CFB100DD6199 /* LTImageView.m */; };
 		C656EB8C670D6525F4F37E4C /* libPods-LTScrollViewDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C16EBD28A5F754C51E82B4 /* libPods-LTScrollViewDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -54,10 +54,10 @@
 		630030E81CD7505800A79954 /* LTScrollViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LTScrollViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		630030EC1CD7505800A79954 /* LTScrollViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTScrollViewDemoUITests.m; sourceTree = "<group>"; };
 		630030EE1CD7505800A79954 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		63FB1CD71CD77EDA0034EA2E /* LTImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTImageScrollView.h; sourceTree = "<group>"; };
-		63FB1CD81CD77EDA0034EA2E /* LTImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageScrollView.m; sourceTree = "<group>"; };
-		63FB1CDA1CD77EFA0034EA2E /* LTImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTImageView.h; sourceTree = "<group>"; };
-		63FB1CDB1CD77EFA0034EA2E /* LTImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageView.m; sourceTree = "<group>"; };
+		63B24E181CF2CFB100DD6199 /* LTImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTImageScrollView.h; sourceTree = "<group>"; };
+		63B24E191CF2CFB100DD6199 /* LTImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageScrollView.m; sourceTree = "<group>"; };
+		63B24E1A1CF2CFB100DD6199 /* LTImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTImageView.h; sourceTree = "<group>"; };
+		63B24E1B1CF2CFB100DD6199 /* LTImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageView.m; sourceTree = "<group>"; };
 		82C16EBD28A5F754C51E82B4 /* libPods-LTScrollViewDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTScrollViewDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04DA4EBB213722DEAE64BA4 /* Pods-LTScrollViewDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTScrollViewDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LTScrollViewDemo/Pods-LTScrollViewDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		FD04F4A7399590E53BF77075 /* Pods-LTScrollViewDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTScrollViewDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LTScrollViewDemo/Pods-LTScrollViewDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +92,7 @@
 		630030BB1CD7505800A79954 = {
 			isa = PBXGroup;
 			children = (
+				63B24E171CF2CFB100DD6199 /* LTImageScrollView */,
 				630030C61CD7505800A79954 /* LTScrollViewDemo */,
 				630030E01CD7505800A79954 /* LTScrollViewDemoTests */,
 				630030EB1CD7505800A79954 /* LTScrollViewDemoUITests */,
@@ -118,7 +119,6 @@
 				630030CB1CD7505800A79954 /* AppDelegate.m */,
 				630030CD1CD7505800A79954 /* ViewController.h */,
 				630030CE1CD7505800A79954 /* ViewController.m */,
-				63FB1CD61CD77E4F0034EA2E /* LTImageScrollView */,
 				630030D01CD7505800A79954 /* Main.storyboard */,
 				630030D31CD7505800A79954 /* Assets.xcassets */,
 				630030D51CD7505800A79954 /* LaunchScreen.storyboard */,
@@ -154,13 +154,13 @@
 			path = LTScrollViewDemoUITests;
 			sourceTree = "<group>";
 		};
-		63FB1CD61CD77E4F0034EA2E /* LTImageScrollView */ = {
+		63B24E171CF2CFB100DD6199 /* LTImageScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				63FB1CD71CD77EDA0034EA2E /* LTImageScrollView.h */,
-				63FB1CD81CD77EDA0034EA2E /* LTImageScrollView.m */,
-				63FB1CDA1CD77EFA0034EA2E /* LTImageView.h */,
-				63FB1CDB1CD77EFA0034EA2E /* LTImageView.m */,
+				63B24E181CF2CFB100DD6199 /* LTImageScrollView.h */,
+				63B24E191CF2CFB100DD6199 /* LTImageScrollView.m */,
+				63B24E1A1CF2CFB100DD6199 /* LTImageView.h */,
+				63B24E1B1CF2CFB100DD6199 /* LTImageView.m */,
 			);
 			path = LTImageScrollView;
 			sourceTree = "<group>";
@@ -363,11 +363,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63FB1CDC1CD77EFA0034EA2E /* LTImageView.m in Sources */,
+				63B24E1D1CF2CFB100DD6199 /* LTImageView.m in Sources */,
 				630030CF1CD7505800A79954 /* ViewController.m in Sources */,
 				630030CC1CD7505800A79954 /* AppDelegate.m in Sources */,
 				630030C91CD7505800A79954 /* main.m in Sources */,
-				63FB1CD91CD77EDA0034EA2E /* LTImageScrollView.m in Sources */,
+				63B24E1C1CF2CFB100DD6199 /* LTImageScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
