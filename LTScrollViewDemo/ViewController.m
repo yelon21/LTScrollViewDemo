@@ -25,7 +25,9 @@
                   @"http://pic6.nipic.com/20100323/4214896_084058018310_2.jpg",
                   @"http://www.bz55.com/uploads/allimg/150311/139-150311110321-50.jpg",
                   @"http://xcmn.jsyks.com/photo/img.xgo-img.com.cn/pics/1505/1504435.jpg",
-                  @"http://pic31.nipic.com/20130627/8821914_183356167164_2.jpg"];
+                  @"111.gif",
+                  @"222.png",
+                  @"333.png"];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -59,7 +61,15 @@
 
     NSLog(@"imageAtIndex=%@",@(index));
     NSString *url = [listArray objectAtIndex:index];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    if ([url hasPrefix:@"http"]) {
+        
+        [imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    }
+    else{
+    
+        [imageView setImage:[UIImage imageNamed:url]];
+    }
+    
 }
 
 -(void)ltImageScrollView:(LTImageScrollView *)imageScrollView
