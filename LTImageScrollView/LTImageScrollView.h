@@ -19,6 +19,9 @@
 @optional
 - (void)ltImageScrollView:(LTImageScrollView *)imageScrollView
       clickContentAtIndex:(NSInteger)index;
+
+- (void)ltImageScrollView:(LTImageScrollView *)imageScrollView
+             currentIndex:(NSInteger)currentIndex;
 @end
 
 @interface LTImageScrollView : UIView

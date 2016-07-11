@@ -24,7 +24,7 @@
     listArray = @[@"http://n.7k7kimg.cn/2014/1209/1418109581623.gif",
                   @"http://pic6.nipic.com/20100323/4214896_084058018310_2.jpg",
                   @"http://www.bz55.com/uploads/allimg/150311/139-150311110321-50.jpg",
-                  @"http://xcmn.jsyks.com/photo/img.xgo-img.com.cn/pics/1505/1504435.jpg"];
+                  @"http://cdn.duitang.com/uploads/item/201409/19/20140919072040_45WBX.thumb.700_0.jpeg"];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -57,7 +57,7 @@
                 imageView:(UIImageView *)imageView{
 
     NSLog(@"imageAtIndex=%@",@(index));
-    NSString *url = [listArray objectAtIndex:index];
+    NSString *url = [[listArray objectAtIndex:index] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([url hasPrefix:@"http"]) {
         
         [imageView sd_setImageWithURL:[NSURL URLWithString:url]];

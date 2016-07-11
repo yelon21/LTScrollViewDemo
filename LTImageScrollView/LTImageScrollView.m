@@ -12,6 +12,7 @@
 @interface LTImageScrollView ()<UIScrollViewDelegate,CAAction>{
 
     NSInteger pagesCount;
+    NSInteger _centerPageIndex;
     BOOL changeCurrentAnimate;
 }
 
@@ -31,6 +32,7 @@
 @implementation LTImageScrollView
 @synthesize scrollView = _scrollView;
 @synthesize pageControl = _pageControl;
+@synthesize currentPageIndex = _centerPageIndex;
 
 -(instancetype)initWithFrame:(CGRect)frame{
 
@@ -187,6 +189,20 @@
     [self updateCurrentPageIndex:centerPageIndex];
 }
 
+-(NSInteger)centerPageIndex{
+
+    if (_centerPageIndex > pagesCount - 1) {
+        
+        _centerPageIndex = pagesCount - 1;
+    }
+    else if (_centerPageIndex < 0) {
+        
+        _centerPageIndex = 0;
+    }
+    
+    return _centerPageIndex;
+}
+
 -(NSInteger)currentPageIndex{
 
     return self.centerPageIndex;
@@ -268,6 +284,12 @@
     
         _centerPageIndex = currentPageIndex;
         [self updateContentFrame];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(ltImageScrollView:currentIndex:)]) {
+        
+        [self.delegate ltImageScrollView:self
+                            currentIndex:_centerPageIndex];
     }
 }
 
