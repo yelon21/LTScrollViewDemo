@@ -50,8 +50,8 @@
         [self addSubview:self.pageControl];
         [self addPageControlLayout];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleDeviceOrientationDidChange:)
-                                                     name:UIDeviceOrientationDidChangeNotification
+                                                 selector:@selector(handleStatusBarOrientationDidChange:)
+                                                     name:UIApplicationDidChangeStatusBarOrientationNotification
                                                    object:nil
          ];
         [self lt_reloadContents];
@@ -429,7 +429,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 
-    NSLog(@"scrollViewDidEndDecelerating");
+    //NSLog(@"scrollViewDidEndDecelerating");
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
     NSInteger index = scrollView.contentOffset.x/width;
         
@@ -456,7 +456,6 @@
 - (id<CAAction>)actionForLayer:(CALayer *)_layer forKey:(NSString *)event {
 //    [CATransaction setValue:[NSNumber numberWithFloat:0.0f] forKey:kCATransactionAnimationDuration];
     
-//    NSLog(@"event=%@",event);
     if ([event isEqualToString:kCAOnOrderIn] || [event isEqualToString:kCAOnOrderOut]) {
         return self;
     }
@@ -465,10 +464,6 @@
 }
 
 - (void)runActionForKey:(NSString *)key object:(id)anObject arguments:(NSDictionary *)dict {
-
-    NSLog(@"key=%@",key);
-    NSLog(@"anObject=%@",anObject);
-    NSLog(@"dict=%@",dict);
 
     if (self.autoScroll) {
         
@@ -482,24 +477,24 @@
         }
     }
 }
-- (void)handleDeviceOrientationDidChange:(UIInterfaceOrientation)interfaceOrientation
-{
+
+- (void)handleStatusBarOrientationDidChange:(NSNotification *)notification{
     //1.获取 当前设备 实例
-    UIDevice *device = [UIDevice currentDevice] ;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    switch (device.orientation) {
+    switch (orientation) {
             
-        case UIDeviceOrientationPortrait:
-        case UIDeviceOrientationPortraitUpsideDown:
-        case UIDeviceOrientationLandscapeLeft:
-        case UIDeviceOrientationLandscapeRight:{
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:{
             
             if (pagesCount == 0) {
                 
                 [self lt_reloadContents];
             }
             else {
-               
+                
                 CGFloat width = CGRectGetWidth(self.scrollView.bounds);
                 CGFloat height = CGRectGetHeight(self.scrollView.bounds);
                 
@@ -517,15 +512,12 @@
             }
             break;
         }
-        case UIDeviceOrientationFaceUp:
-            break;
-        case UIDeviceOrientationFaceDown:
-            break;
-        case UIDeviceOrientationUnknown:
+        case UIInterfaceOrientationUnknown:
             break;
         default:
             NSLog(@"无法辨识");
             break;
     }
 }
+
 @end
