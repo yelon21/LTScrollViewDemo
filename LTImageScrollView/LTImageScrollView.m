@@ -425,6 +425,11 @@
     changeCurrentAnimate = YES;
     [self updateCurrentPageIndex:pageControl.currentPage];
 }
+
+- (UIImage *)currentImage{
+    
+    return self.centerImageV.imageView.image;
+}
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
