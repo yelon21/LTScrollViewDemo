@@ -28,20 +28,23 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    LTImageScrollView *imageScrollView0 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.bounds), 130.0)];
-    imageScrollView0.delegate = self;
-    imageScrollView0.autoScroll =YES;
+//    LTImageScrollView *imageScrollView0 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.bounds), 130.0)];
+//    imageScrollView0.delegate = self;
+//    imageScrollView0.autoScroll =YES;
+//    
+//    [self.view addSubview:imageScrollView0];
+//    imageScrollView0.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//    [imageScrollView0 lt_reloadContents];
     
-    [self.view addSubview:imageScrollView0];
-    imageScrollView0.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    LTImageScrollView *imageScrollView1 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 140.0, CGRectGetWidth(self.view.bounds), 130.0)];
+    LTImageScrollView *imageScrollView1 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 200.0, CGRectGetWidth(self.view.bounds), 130.0)];
     imageScrollView1.delegate = self;
     imageScrollView1.autoScroll = NO;
     imageScrollView1.pullStyle = YES;
+//    imageScrollView1.scaleEnable = YES;
     
     [self.view addSubview:imageScrollView1];
     imageScrollView1.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [imageScrollView1 lt_reloadContents];
 
 }
 

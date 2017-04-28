@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LTImageView : UIControl
+@interface LTImageView : UIView
 
+@property (nonatomic,strong,readonly) UIScrollView *scrollView;
 @property (nonatomic,strong,readonly) UIImageView *imageView;
 @end

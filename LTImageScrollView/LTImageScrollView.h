@@ -34,6 +34,8 @@
 @property (nonatomic,assign) BOOL autoScroll;
 @property (nonatomic,assign) BOOL pullStyle;
 
+@property (nonatomic,assign) BOOL scaleEnable;
+
 @property(nonatomic,strong,readonly)UIScrollView *scrollView;
 
 @property (nonatomic,strong,readonly) UIPageControl *pageControl;

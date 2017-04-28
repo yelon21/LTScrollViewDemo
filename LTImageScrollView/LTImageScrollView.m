@@ -132,8 +132,12 @@
     if (!_centerImageV) {
         
         _centerImageV = [[LTImageView alloc]init];
-        [_centerImageV addTarget:self action:@selector(scrollContentClick:)
-                forControlEvents:UIControlEventTouchUpInside];
+        _centerImageV.scrollView.userInteractionEnabled = self.scaleEnable;
+//        [_centerImageV addTarget:self action:@selector(scrollContentClick:)
+//                forControlEvents:UIControlEventTouchUpInside];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]init];
+        [tap addTarget:self action:@selector(scrollContentClick:)];
+        [_centerImageV addGestureRecognizer:tap];
     }
     return _centerImageV;
 }
@@ -211,6 +215,17 @@
 
     changeCurrentAnimate = YES;
     [self updateCurrentPageIndex:currentPageIndex];
+}
+
+-(void)setScaleEnable:(BOOL)scaleEnable{
+
+    _scaleEnable = scaleEnable;
+    
+    if (_scaleEnable == NO) {
+        
+        self.centerImageV.scrollView.zoomScale = 1.0;
+    }
+    self.centerImageV.scrollView.userInteractionEnabled = _scaleEnable;
 }
 #pragma mark self methord
 - (void)addPageControlLayout{
@@ -380,7 +395,7 @@
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
 }
 #pragma mark click Action
-- (void)scrollContentClick:(UIControl *)control{
+- (void)scrollContentClick:(UITapGestureRecognizer *)tap{
 
     if (pagesCount<1) {
         return;
@@ -434,6 +449,7 @@
     NSInteger index = scrollView.contentOffset.x/width;
         
     self.centerPageIndex = self.centerPageIndex + index - 1;
+    self.centerImageV.scrollView.zoomScale = 1.0;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
