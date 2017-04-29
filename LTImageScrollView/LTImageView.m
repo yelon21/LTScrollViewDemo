@@ -33,12 +33,6 @@
     return self;
 }
 
--(void)layoutSubviews{
- 
-    [super layoutSubviews];
-    _scrollView.contentSize = self.scrollView.bounds.size;
-}
-
 -(UIImageView *)imageView{
 
     if (!_imageView) {
