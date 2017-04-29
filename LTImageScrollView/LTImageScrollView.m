@@ -106,6 +106,8 @@
             }
         }
     }
+    
+    self.scrollView.userInteractionEnabled = !_autoScroll;
 }
 
 -(UIPageControl *)pageControl{
@@ -115,7 +117,7 @@
         _pageControl = [[UIPageControl alloc]init];
         _pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
         _pageControl.currentPageIndicatorTintColor = [UIColor colorWithWhite:1.0 alpha:0.7];
-        _pageControl.hidesForSinglePage = YES;
+        _pageControl.hidesForSinglePage = NO;
         _pageControl.defersCurrentPageDisplay = YES;
         [_pageControl sizeToFit];
     }
@@ -426,9 +428,16 @@
     [self updateCurrentPageIndex:pageControl.currentPage];
 }
 
-- (UIImage *)currentImage{
+- (UIImageView *)lt_currentImageView{
     
-    return self.centerImageV.imageView.image;
+    return self.centerImageV.imageView;
+}
+
+- (void)lt_clearImageContents{
+
+    self.centerImageV.imageView.image = nil;
+    self.leftImageV.imageView.image = nil;
+    self.rightImageV.imageView.image = nil;
 }
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -466,9 +475,18 @@
     //NSLog(@"scrollViewDidEndDecelerating");
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
     NSInteger index = scrollView.contentOffset.x/width;
-
+    
+    if (index != 1) {
+        
+        self.centerImageV.scrollView.zoomScale = 1.0;
+    }
+    
     self.centerPageIndex = self.centerPageIndex + index - 1;
-    self.centerImageV.scrollView.zoomScale = 1.0;
+    
+    if (!self.autoScroll) {
+        
+        self.scrollView.userInteractionEnabled = YES;
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -484,6 +502,10 @@
     if (self.autoScroll) {
         
         [self timerResumeAfter:_scrollDuration];
+    }
+    else{
+    
+        self.scrollView.userInteractionEnabled = NO;
     }
 }
 #pragma mark - CAAction

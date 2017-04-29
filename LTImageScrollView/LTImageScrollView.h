@@ -42,5 +42,7 @@
 
 - (void)lt_reloadContents;
 
-- (UIImage *)currentImage;
+- (UIImageView *)lt_currentImageView;
+
+- (void)lt_clearImageContents;
 @end
