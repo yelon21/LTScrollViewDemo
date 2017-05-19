@@ -58,34 +58,16 @@
     }
     return self;
 }
--(void)layoutSubviews{
-    
-    [super layoutSubviews];
-    
-    CGFloat width = CGRectGetWidth(self.scrollView.bounds);
-    //    CGFloat height = CGRectGetHeight(self.scrollView.bounds);
-    
-    if (pagesCount>1) {
-        
-        self.scrollView.scrollEnabled = YES;
-        [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
-    }
-    else{
-        
-        self.scrollView.scrollEnabled = NO;
-        [self.scrollView setContentSize:CGSizeMake(width, 0)];
-    }
-}
 #pragma mark setter or getter
 -(NSTimer *)timer{
 
     if (!_timer) {
-
+    
         _timer = [NSTimer scheduledTimerWithTimeInterval:_scrollDuration
-                                                  target:self
-                                                selector:@selector(autoScrollAction:)
-                                                userInfo:nil
-                                                 repeats:YES];
+                                         target:self
+                                       selector:@selector(autoScrollAction:)
+                                       userInfo:nil
+                                        repeats:YES];
     }
     return _timer;
 }
@@ -106,8 +88,6 @@
             }
         }
     }
-    
-    self.scrollView.userInteractionEnabled = !_autoScroll;
 }
 
 -(UIPageControl *)pageControl{
@@ -117,9 +97,10 @@
         _pageControl = [[UIPageControl alloc]init];
         _pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
         _pageControl.currentPageIndicatorTintColor = [UIColor colorWithWhite:1.0 alpha:0.7];
-        _pageControl.hidesForSinglePage = NO;
+        _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
         [_pageControl sizeToFit];
+//        [_pageControl addTarget:self action:@selector(pageControlClick:) forControlEvents:UIControlEventValueChanged];
     }
     return _pageControl;
 }
@@ -151,10 +132,8 @@
     if (!_centerImageV) {
         
         _centerImageV = [[LTImageView alloc]init];
-        _centerImageV.scrollView.userInteractionEnabled = self.scaleEnable;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]init];
-        [tap addTarget:self action:@selector(scrollContentClick:)];
-        [_centerImageV addGestureRecognizer:tap];
+        [_centerImageV addTarget:self action:@selector(scrollContentClick:)
+                forControlEvents:UIControlEventTouchUpInside];
     }
     return _centerImageV;
 }
@@ -233,17 +212,6 @@
     changeCurrentAnimate = YES;
     [self updateCurrentPageIndex:currentPageIndex];
 }
-
--(void)setScaleEnable:(BOOL)scaleEnable{
-
-    _scaleEnable = scaleEnable;
-    
-    if (_scaleEnable == NO) {
-        
-        self.centerImageV.scrollView.zoomScale = 1.0;
-    }
-    self.centerImageV.scrollView.userInteractionEnabled = _scaleEnable;
-}
 #pragma mark self methord
 - (void)addPageControlLayout{
     
@@ -301,9 +269,9 @@
         CGFloat offsetX = width;
 //        if (currentPageIndex>_centerPageIndex) {
         
-        offsetX = width*2;
+            offsetX = width*2;
 //        }else if (currentPageIndex<_centerPageIndex) {
-//
+//        
 //            offsetX = width*0;
 //        }
         _centerPageIndex = currentPageIndex;
@@ -328,6 +296,7 @@
 -(void)lt_reloadContents{
 
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
+    CGFloat height = CGRectGetHeight(self.scrollView.bounds);
     
     pagesCount = 0;
     
@@ -342,12 +311,12 @@
     if (pagesCount>1) {
         
         self.scrollView.scrollEnabled = YES;
-        [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
+        [self.scrollView setContentSize:CGSizeMake(width*3, height)];
     }
     else{
         
         self.scrollView.scrollEnabled = NO;
-        [self.scrollView setContentSize:CGSizeMake(width, 0)];
+        [self.scrollView setContentSize:CGSizeMake(width, height)];
     }
     
     [self updateContentFrame];
@@ -375,8 +344,8 @@
     if ([self.delegate respondsToSelector:@selector(ltImageScrollView:imageAtIndex:imageView:)]) {
         
         [self.delegate ltImageScrollView:self
-                            imageAtIndex:self.centerPageIndex
-                               imageView:self.centerImageV.imageView];
+                             imageAtIndex:self.centerPageIndex
+                                imageView:self.centerImageV.imageView];
         
         [self.delegate ltImageScrollView:self
                             imageAtIndex:self.leftPageIndex
@@ -411,7 +380,7 @@
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
 }
 #pragma mark click Action
-- (void)scrollContentClick:(UITapGestureRecognizer *)tap{
+- (void)scrollContentClick:(UIControl *)control{
 
     if (pagesCount<1) {
         return;
@@ -426,18 +395,6 @@
 
     changeCurrentAnimate = YES;
     [self updateCurrentPageIndex:pageControl.currentPage];
-}
-
-- (UIImageView *)lt_currentImageView{
-    
-    return self.centerImageV.imageView;
-}
-
-- (void)lt_clearImageContents{
-
-    self.centerImageV.imageView.image = nil;
-    self.leftImageV.imageView.image = nil;
-    self.rightImageV.imageView.image = nil;
 }
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -475,18 +432,8 @@
     //NSLog(@"scrollViewDidEndDecelerating");
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
     NSInteger index = scrollView.contentOffset.x/width;
-    
-    if (index != 1) {
         
-        self.centerImageV.scrollView.zoomScale = 1.0;
-    }
-    
     self.centerPageIndex = self.centerPageIndex + index - 1;
-    
-    if (!self.autoScroll) {
-        
-        self.scrollView.userInteractionEnabled = YES;
-    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -503,15 +450,11 @@
         
         [self timerResumeAfter:_scrollDuration];
     }
-    else{
-    
-        self.scrollView.userInteractionEnabled = NO;
-    }
 }
 #pragma mark - CAAction
 
 - (id<CAAction>)actionForLayer:(CALayer *)_layer forKey:(NSString *)event {
-    //    [CATransaction setValue:[NSNumber numberWithFloat:0.0f] forKey:kCATransactionAnimationDuration];
+//    [CATransaction setValue:[NSNumber numberWithFloat:0.0f] forKey:kCATransactionAnimationDuration];
     
     if ([event isEqualToString:kCAOnOrderIn] || [event isEqualToString:kCAOnOrderOut]) {
         return self;
@@ -553,16 +496,17 @@
             else {
                 
                 CGFloat width = CGRectGetWidth(self.scrollView.bounds);
+                CGFloat height = CGRectGetHeight(self.scrollView.bounds);
                 
                 if (pagesCount>1) {
                     
                     self.scrollView.scrollEnabled = YES;
-                    [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
+                    [self.scrollView setContentSize:CGSizeMake(width*3, height)];
                 }
                 else{
                     
                     self.scrollView.scrollEnabled = NO;
-                    [self.scrollView setContentSize:CGSizeMake(width, 0)];
+                    [self.scrollView setContentSize:CGSizeMake(width, height)];
                 }
                 [self updateContentFrame];
             }
