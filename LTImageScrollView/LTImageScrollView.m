@@ -106,8 +106,6 @@
             }
         }
     }
-    
-    self.scrollView.userInteractionEnabled = !_autoScroll;
 }
 
 -(UIPageControl *)pageControl{
@@ -464,11 +462,6 @@
     NSInteger index = scrollView.contentOffset.x/width;
     
     self.centerPageIndex = self.centerPageIndex + index - 1;
-    
-    if (!self.autoScroll) {
-        
-        self.scrollView.userInteractionEnabled = YES;
-    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -484,10 +477,6 @@
     if (self.autoScroll) {
         
         [self timerResumeAfter:_scrollDuration];
-    }
-    else{
-    
-        self.scrollView.userInteractionEnabled = NO;
     }
 }
 #pragma mark - CAAction
