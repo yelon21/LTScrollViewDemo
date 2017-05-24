@@ -39,4 +39,8 @@
 @property (nonatomic,strong,readonly) UIPageControl *pageControl;
 
 - (void)lt_reloadContents;
+
+- (UIImageView *)lt_currentImageView;
+
+- (void)lt_clearImageContents;
 @end
