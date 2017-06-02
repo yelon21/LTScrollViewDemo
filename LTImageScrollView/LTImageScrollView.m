@@ -429,6 +429,28 @@
 
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
     CGFloat offsetX = scrollView.contentOffset.x;
+    
+    if (self.forceToNoCycle) {
+        
+        if (self.centerPageIndex == 0) {
+            
+            if (offsetX<width) {
+                
+                scrollView.contentOffset = CGPointMake(width, 0);
+                return;
+            }
+        }
+        else if (self.centerPageIndex == pagesCount - 1){
+        
+            
+            if (offsetX>width) {
+                
+                scrollView.contentOffset = CGPointMake(width, 0);
+                return;
+            }
+        }
+    }
+    
     if (offsetX>2*width) {
         
         self.centerPageIndex = self.centerPageIndex-1;
