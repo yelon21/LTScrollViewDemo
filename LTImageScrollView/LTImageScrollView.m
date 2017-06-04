@@ -197,10 +197,10 @@
 }
 -(void)setCenterPageIndex:(NSInteger)centerPageIndex{
     
-    if (centerPageIndex == _centerPageIndex) {
-        
-        return;
-    }
+//    if (centerPageIndex == _centerPageIndex) {
+//        
+//        return;
+//    }
 
     changeCurrentAnimate = NO;
     [self updateCurrentPageIndex:centerPageIndex];
@@ -437,15 +437,16 @@
             if (offsetX<width) {
                 
                 scrollView.contentOffset = CGPointMake(width, 0);
+                scrollView.userInteractionEnabled = NO;
                 return;
             }
         }
         else if (self.centerPageIndex == pagesCount - 1){
         
-            
             if (offsetX>width) {
                 
                 scrollView.contentOffset = CGPointMake(width, 0);
+                scrollView.userInteractionEnabled = NO;
                 return;
             }
         }
@@ -480,10 +481,16 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 
     //NSLog(@"scrollViewDidEndDecelerating");
+    scrollView.userInteractionEnabled = YES;
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
-    NSInteger index = scrollView.contentOffset.x/width;
+    NSInteger index = round(scrollView.contentOffset.x/width);
     
     self.centerPageIndex = self.centerPageIndex + index - 1;
+    
+    if (self.autoScroll) {
+        
+        [self timerResumeAfter:_scrollDuration];
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -496,10 +503,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 
-    if (self.autoScroll) {
-        
-        [self timerResumeAfter:_scrollDuration];
-    }
+    scrollView.userInteractionEnabled = YES;
 }
 #pragma mark - CAAction
 
