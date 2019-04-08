@@ -283,10 +283,10 @@
         
         CGFloat width = CGRectGetWidth(self.scrollView.bounds);
         
-        CGFloat offsetX = width;
+//        CGFloat offsetX = width;
 //        if (currentPageIndex>_centerPageIndex) {
         
-        offsetX = width*2;
+        CGFloat offsetX = width*2;
 //        }else if (currentPageIndex<_centerPageIndex) {
 //
 //            offsetX = width*0;

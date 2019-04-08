@@ -189,12 +189,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 630030F11CD7505800A79954 /* Build configuration list for PBXNativeTarget "LTScrollViewDemo" */;
 			buildPhases = (
+				B8683DEA4ABF6A1C0DDF7F17 /* [CP] Check Pods Manifest.lock */,
 				43BDF35FF4B7E1558CB0E4CD /* 📦 Check Pods Manifest.lock */,
 				630030C01CD7505800A79954 /* Sources */,
 				630030C11CD7505800A79954 /* Frameworks */,
 				630030C21CD7505800A79954 /* Resources */,
-				1DA733AD1524499C37312E8B /* 📦 Embed Pods Frameworks */,
-				6B504CA91C4CC9897156CFB4 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -252,6 +251,8 @@
 				TargetAttributes = {
 					630030C31CD7505800A79954 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = U7DFNWQBUU;
+						ProvisioningStyle = Manual;
 					};
 					630030DC1CD7505800A79954 = {
 						CreatedOnToolsVersion = 7.3;
@@ -268,6 +269,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -311,21 +313,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1DA733AD1524499C37312E8B /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LTScrollViewDemo/Pods-LTScrollViewDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		43BDF35FF4B7E1558CB0E4CD /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -341,19 +328,26 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		6B504CA91C4CC9897156CFB4 /* 📦 Copy Pods Resources */ = {
+		B8683DEA4ABF6A1C0DDF7F17 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LTScrollViewDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LTScrollViewDemo/Pods-LTScrollViewDemo-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -509,11 +503,14 @@
 			baseConfigurationReference = B04DA4EBB213722DEAE64BA4 /* Pods-LTScrollViewDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = U7DFNWQBUU;
 				INFOPLIST_FILE = LTScrollViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yelon.LTScrollViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = debug_any;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -523,11 +520,14 @@
 			baseConfigurationReference = FD04F4A7399590E53BF77075 /* Pods-LTScrollViewDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LTScrollViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yelon.LTScrollViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
