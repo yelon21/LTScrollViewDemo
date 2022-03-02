@@ -38,26 +38,43 @@
 
     if (self = [super initWithFrame:frame]) {
         
-        self.scrollView.frame = self.bounds;
-        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self addSubview:_scrollView];
-        
-        [_scrollView addSubview:self.centerImageV];
-        [_scrollView addSubview:self.leftImageV];
-        [_scrollView addSubview:self.rightImageV];
-        
-        self.scrollDuration = 2.0;
-        [self addSubview:self.pageControl];
-        [self addPageControlLayout];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleStatusBarOrientationDidChange:)
-                                                     name:UIApplicationDidChangeStatusBarOrientationNotification
-                                                   object:nil
-         ];
-        [self lt_reloadContents];
+        [self setup];
     }
+    
     return self;
 }
+
+-(instancetype)initWithCoder:(NSCoder *)coder{
+    
+    if (self = [super initWithCoder:coder]) {
+        
+        [self setup];
+    }
+    
+    return self;
+}
+
+- (void)setup{
+    
+    self.scrollView.frame = self.bounds;
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self addSubview:_scrollView];
+    
+    [_scrollView addSubview:self.centerImageV];
+    [_scrollView addSubview:self.leftImageV];
+    [_scrollView addSubview:self.rightImageV];
+    
+    self.scrollDuration = 2.0;
+    [self addSubview:self.pageControl];
+    [self addPageControlLayout];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleStatusBarOrientationDidChange:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil
+     ];
+    [self lt_reloadContents];
+}
+
 -(void)layoutSubviews{
     
     [super layoutSubviews];
@@ -74,6 +91,17 @@
         
         self.scrollView.scrollEnabled = NO;
         [self.scrollView setContentSize:CGSizeMake(width, 0)];
+    }
+    
+    [self updateContentFrame];
+}
+
+-(void)setDelegate:(id<LTImageScrollViewDelegate>)delegate{
+    
+    if (_delegate != delegate) {
+        
+        _delegate = delegate;
+        [self lt_reloadContents];
     }
 }
 #pragma mark setter or getter
@@ -323,6 +351,7 @@
     
     self.pageControl.numberOfPages = pagesCount;
     [self.pageControl sizeToFit];
+    self.pageControl.hidden = pagesCount < 2;
     
     if (pagesCount>1) {
         

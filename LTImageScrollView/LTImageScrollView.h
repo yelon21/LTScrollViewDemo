@@ -28,7 +28,7 @@
 
 @property (nonatomic,assign) NSInteger currentPageIndex;
 
-@property(nonatomic,assign) id<LTImageScrollViewDelegate>delegate;
+@property(nonatomic,weak) IBOutlet id<LTImageScrollViewDelegate>delegate;
 
 @property (nonatomic,assign) NSTimeInterval scrollDuration;
 @property (nonatomic,assign) BOOL autoScroll;
