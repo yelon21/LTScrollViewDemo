@@ -1,30 +1,35 @@
 //
-//  ViewController.m
+//  PresentVC.m
 //  LTScrollViewDemo
 //
-//  Created by yelon on 16/5/2.
-//  Copyright © 2016年 yelon. All rights reserved.
+//  Created by 龙 on 2022/3/3.
+//  Copyright © 2022 yelon. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "PresentVC.h"
 #import "LTImageScrollView.h"
 #import <UIImageView+WebCache.h>
 #import "UIView+UIScreenDisplaying.h"
 #import "PresentVC.h"
 
-@interface ViewController ()<LTImageScrollViewDelegate>{
+@interface PresentVC ()<LTImageScrollViewDelegate>{
 
     NSArray *listArray;
     
     LTImageScrollView *imageScrollView0;
-    UIViewController *coverViewCon;
 }
 
 @end
 
-@implementation ViewController
+@implementation PresentVC
+
+-(void)dealloc{
+    
+    NSLog(@"vc dealloc");
+}
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     listArray = @[@"http://n.7k7kimg.cn/2014/1209/1418109581623.gif",
@@ -34,38 +39,24 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-//    imageScrollView0 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.bounds), 130.0)];
-//    imageScrollView0.delegate = self;
-//    imageScrollView0.autoScroll =YES;
-//    imageScrollView0.forceToNoCycle = YES;
-//
-//    [self.view addSubview:imageScrollView0];
-//    imageScrollView0.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//    [imageScrollView0 lt_reloadContents];
+    imageScrollView0 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.bounds), 130.0)];
+    imageScrollView0.delegate = self;
+    imageScrollView0.autoScroll =YES;
+    imageScrollView0.forceToNoCycle = YES;
     
-//    LTImageScrollView *imageScrollView1 = [[LTImageScrollView alloc]initWithFrame:CGRectMake(0.0, 200.0, CGRectGetWidth(self.view.bounds), 130.0)];
-//    imageScrollView1.delegate = self;
-//    imageScrollView1.autoScroll = NO;
-//    imageScrollView1.pullStyle = YES;
-//    imageScrollView1.forceToNoCycle = YES;
-//
-//    [self.view addSubview:imageScrollView1];
-//    imageScrollView1.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//    [imageScrollView1 lt_reloadContents];
-    
-    coverViewCon = [[UIViewController alloc] init];
-    coverViewCon.view.backgroundColor = [UIColor redColor];
+    [self.view addSubview:imageScrollView0];
+    imageScrollView0.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [imageScrollView0 lt_reloadContents];
 
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    PresentVC *vc = [[PresentVC alloc] init];
-    [self presentViewController:vc
-                       animated:YES
-                     completion:^{
-        
+    [self dismissViewControllerAnimated:YES completion:^{
+
     }];
+//
+//    imageScrollView0.autoScroll = !imageScrollView0.autoScroll;
 }
 
 - (NSInteger)ltImageScrollViewNumbersOfContents:(LTImageScrollView *)imageScrollView{

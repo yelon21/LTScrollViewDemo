@@ -108,12 +108,14 @@
 -(NSTimer *)timer{
 
     if (!_timer) {
-
-        _timer = [NSTimer scheduledTimerWithTimeInterval:_scrollDuration
-                                                  target:self
-                                                selector:@selector(autoScrollAction:)
-                                                userInfo:nil
-                                                 repeats:YES];
+        
+        _timer = [NSTimer timerWithTimeInterval:_scrollDuration
+                                         target:self
+                                       selector:@selector(autoScrollAction:)
+                                       userInfo:nil
+                                        repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer
+                                     forMode:NSDefaultRunLoopMode];
     }
     return _timer;
 }
@@ -126,12 +128,10 @@
         
         if (_autoScroll) {
             
-            [self timer];
+            [self timerResume];
         }else{
-        
-            if (_timer) {
-                [_timer isValid];
-            }
+            
+            [self timerPause];
         }
     }
 }
@@ -286,7 +286,7 @@
 }
 
 - (void)autoScrollAction:(NSTimer *)timer{
-
+    
     if (pagesCount>1) {
         
         self.currentPageIndex = self.centerPageIndex+1;
@@ -404,24 +404,21 @@
 
 - (void)timerPause{
 
-    if (![self.timer isValid]) {
-        return ;
+    if (!_timer) {
+        
+        return;
     }
+    
     [self.timer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)timerResume{
     
-    if (![self.timer isValid]) {
-        return ;
-    }
-    [self.timer setFireDate:[NSDate distantPast]];
+    [self.timer setFireDate:[NSDate date]];
 }
+
 - (void)timerResumeAfter:(NSTimeInterval)timeInterval{
     
-    if (![self.timer isValid]) {
-        return ;
-    }
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
 }
 #pragma mark click Action
@@ -538,7 +535,14 @@
 
 - (id<CAAction>)actionForLayer:(CALayer *)_layer forKey:(NSString *)event {
     //    [CATransaction setValue:[NSNumber numberWithFloat:0.0f] forKey:kCATransactionAnimationDuration];
-    
+
+    if ([event isEqualToString:kCAOnOrderOut]) {
+        
+        if (_timer&&_timer.isValid) {
+            [_timer invalidate];
+            _timer = nil;
+        }
+    }
     if ([event isEqualToString:kCAOnOrderIn] || [event isEqualToString:kCAOnOrderOut]) {
         return self;
     }
