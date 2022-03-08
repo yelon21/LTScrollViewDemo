@@ -17,7 +17,6 @@
 		630030ED1CD7505800A79954 /* LTScrollViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 630030EC1CD7505800A79954 /* LTScrollViewDemoUITests.m */; };
 		63B24E1C1CF2CFB100DD6199 /* LTImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B24E191CF2CFB100DD6199 /* LTImageScrollView.m */; };
 		63B24E1D1CF2CFB100DD6199 /* LTImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B24E1B1CF2CFB100DD6199 /* LTImageView.m */; };
-		63B695E527D0B739002EAF4C /* UIView+UIScreenDisplaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B695E427D0B739002EAF4C /* UIView+UIScreenDisplaying.m */; };
 		63B695E827D0D9C9002EAF4C /* PresentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B695E727D0D9C9002EAF4C /* PresentVC.m */; };
 		C656EB8C670D6525F4F37E4C /* libPods-LTScrollViewDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C16EBD28A5F754C51E82B4 /* libPods-LTScrollViewDemo.a */; };
 /* End PBXBuildFile section */
@@ -60,8 +59,6 @@
 		63B24E191CF2CFB100DD6199 /* LTImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageScrollView.m; sourceTree = "<group>"; };
 		63B24E1A1CF2CFB100DD6199 /* LTImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTImageView.h; sourceTree = "<group>"; };
 		63B24E1B1CF2CFB100DD6199 /* LTImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTImageView.m; sourceTree = "<group>"; };
-		63B695E327D0B739002EAF4C /* UIView+UIScreenDisplaying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+UIScreenDisplaying.h"; sourceTree = "<group>"; };
-		63B695E427D0B739002EAF4C /* UIView+UIScreenDisplaying.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIScreenDisplaying.m"; sourceTree = "<group>"; };
 		63B695E627D0D9C9002EAF4C /* PresentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresentVC.h; sourceTree = "<group>"; };
 		63B695E727D0D9C9002EAF4C /* PresentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PresentVC.m; sourceTree = "<group>"; };
 		82C16EBD28A5F754C51E82B4 /* libPods-LTScrollViewDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTScrollViewDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,8 +124,6 @@
 				630030CE1CD7505800A79954 /* ViewController.m */,
 				63B695E627D0D9C9002EAF4C /* PresentVC.h */,
 				63B695E727D0D9C9002EAF4C /* PresentVC.m */,
-				63B695E327D0B739002EAF4C /* UIView+UIScreenDisplaying.h */,
-				63B695E427D0B739002EAF4C /* UIView+UIScreenDisplaying.m */,
 				630030D01CD7505800A79954 /* Main.storyboard */,
 				630030D31CD7505800A79954 /* Assets.xcassets */,
 				630030D51CD7505800A79954 /* LaunchScreen.storyboard */,
@@ -369,7 +364,6 @@
 			files = (
 				63B24E1D1CF2CFB100DD6199 /* LTImageView.m in Sources */,
 				630030CF1CD7505800A79954 /* ViewController.m in Sources */,
-				63B695E527D0B739002EAF4C /* UIView+UIScreenDisplaying.m in Sources */,
 				630030CC1CD7505800A79954 /* AppDelegate.m in Sources */,
 				630030C91CD7505800A79954 /* main.m in Sources */,
 				63B24E1C1CF2CFB100DD6199 /* LTImageScrollView.m in Sources */,

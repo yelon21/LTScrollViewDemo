@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import "LTImageScrollView.h"
 #import <UIImageView+WebCache.h>
-#import "UIView+UIScreenDisplaying.h"
 #import "PresentVC.h"
 
 @interface ViewController ()<LTImageScrollViewDelegate>{
