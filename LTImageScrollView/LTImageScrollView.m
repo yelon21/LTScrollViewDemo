@@ -32,7 +32,6 @@
 @implementation LTImageScrollView
 @synthesize scrollView = _scrollView;
 @synthesize pageControl = _pageControl;
-@synthesize currentPageIndex = _centerPageIndex;
 
 -(instancetype)initWithFrame:(CGRect)frame{
 
@@ -56,22 +55,15 @@
 
 - (void)setup{
     
-    self.scrollView.frame = self.bounds;
-    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self addSubview:_scrollView];
+    self.scrollDuration = 3.0;
+    pagesCount = 0;
     
-    [_scrollView addSubview:self.centerImageV];
-    [_scrollView addSubview:self.leftImageV];
-    [_scrollView addSubview:self.rightImageV];
+    [self.scrollView addSubview:self.leftImageV];
+    [self.scrollView addSubview:self.rightImageV];
+    [self.scrollView addSubview:self.centerImageV];
     
-    self.scrollDuration = 2.0;
+    [self addSubview:self.scrollView];
     [self addSubview:self.pageControl];
-    [self addPageControlLayout];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleStatusBarOrientationDidChange:)
-                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
-                                               object:nil
-     ];
     [self lt_reloadContents];
 }
 
@@ -79,22 +71,21 @@
     
     [super layoutSubviews];
     
-    CGFloat width = CGRectGetWidth(self.scrollView.bounds);
-    //    CGFloat height = CGRectGetHeight(self.scrollView.bounds);
+    CGFloat width = CGRectGetWidth(self.bounds);
+    CGFloat height = CGRectGetHeight(self.bounds);
     
-    if (pagesCount>1) {
-        
-        self.scrollView.scrollEnabled = YES;
-        [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
-    }
-    else{
-        
-        self.scrollView.scrollEnabled = NO;
-        [self.scrollView setContentSize:CGSizeMake(width, 0)];
-    }
+    self.scrollView.frame = self.bounds;
     
-    [self updateContentFrame];
+    [self.scrollView setContentSize:CGSizeMake(width*3, height)];
+    self.scrollView.contentOffset = CGPointMake(width, 0.0);
+    self.pageControl.frame = CGRectMake(0.0, height-30.0, width, 30.0);
+    
+    self.leftImageV.frame = CGRectMake(0, 0.0, width, height);
+    self.centerImageV.frame = CGRectMake(width, 0.0, width, height);
+    self.rightImageV.frame = CGRectMake(width+width, 0.0, width, height);
 }
+
+#pragma mark setter or getter
 
 -(void)setDelegate:(id<LTImageScrollViewDelegate>)delegate{
     
@@ -104,7 +95,7 @@
         [self lt_reloadContents];
     }
 }
-#pragma mark setter or getter
+
 -(NSTimer *)timer{
 
     if (!_timer) {
@@ -145,6 +136,9 @@
         _pageControl.currentPageIndicatorTintColor = [UIColor colorWithWhite:1.0 alpha:0.7];
         _pageControl.hidesForSinglePage = NO;
         _pageControl.defersCurrentPageDisplay = YES;
+        [_pageControl addTarget:self
+                         action:@selector(pageControlClick:)
+               forControlEvents:UIControlEventValueChanged];
         [_pageControl sizeToFit];
     }
     return _pageControl;
@@ -223,29 +217,11 @@
     
     return rightIndex;
 }
+
 -(void)setCenterPageIndex:(NSInteger)centerPageIndex{
-    
-//    if (centerPageIndex == _centerPageIndex) {
-//        
-//        return;
-//    }
 
     changeCurrentAnimate = NO;
     [self updateCurrentPageIndex:centerPageIndex];
-}
-
--(NSInteger)centerPageIndex{
-
-    if (_centerPageIndex > pagesCount - 1) {
-        
-        _centerPageIndex = pagesCount - 1;
-    }
-    else if (_centerPageIndex < 0) {
-        
-        _centerPageIndex = 0;
-    }
-    
-    return _centerPageIndex;
 }
 
 -(NSInteger)currentPageIndex{
@@ -258,32 +234,6 @@
     [self updateCurrentPageIndex:currentPageIndex];
 }
 #pragma mark self methord
-- (void)addPageControlLayout{
-    
-    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageControl
-                                                     attribute:NSLayoutAttributeBottom
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeBottom
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageControl
-                                                     attribute:NSLayoutAttributeLeft
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeLeft
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_pageControl
-                                                     attribute:NSLayoutAttributeRight
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeRight
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-}
 
 - (void)autoScrollAction:(NSTimer *)timer{
     
@@ -311,24 +261,27 @@
         
         CGFloat width = CGRectGetWidth(self.scrollView.bounds);
         
-//        CGFloat offsetX = width;
-//        if (currentPageIndex>_centerPageIndex) {
-        
         CGFloat offsetX = width*2;
-//        }else if (currentPageIndex<_centerPageIndex) {
-//
-//            offsetX = width*0;
-//        }
         _centerPageIndex = currentPageIndex;
         [self.scrollView setContentOffset:CGPointMake(offsetX, 0.0) animated:YES];
-        [self performSelector:@selector(updateContentFrame)
-                   withObject:nil
-                   afterDelay:0.35];
+        
+        if (pagesCount > 0) {
+            
+            [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                                     selector:@selector(updateImagesContent)
+                                                       object:nil];
+            [self performSelector:@selector(updateImagesContent)
+                       withObject:nil
+                       afterDelay:0.35];
+        }
     }
     else{
     
         _centerPageIndex = currentPageIndex;
-        [self updateContentFrame];
+        if (pagesCount > 0) {
+            
+            [self updateImagesContent];
+        }
     }
     
     if ([self.delegate respondsToSelector:@selector(ltImageScrollView:currentIndex:)]) {
@@ -341,6 +294,7 @@
 -(void)lt_reloadContents{
 
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
+    CGFloat height = CGRectGetHeight(self.scrollView.bounds);
     
     pagesCount = 0;
     
@@ -355,28 +309,22 @@
     
     if (pagesCount>1) {
         
+        if (self.autoScroll) {
+            
+            [self timerResume];
+        }
         self.scrollView.scrollEnabled = YES;
-        [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
+        [self.scrollView setContentSize:CGSizeMake(width*3, height)];
     }
     else{
         
+        if (self.autoScroll) {
+            
+            [self timerPause];
+        }
         self.scrollView.scrollEnabled = NO;
-        [self.scrollView setContentSize:CGSizeMake(width, 0)];
+        [self.scrollView setContentSize:CGSizeMake(width*3, height)];
     }
-    
-    [self updateContentFrame];
-}
-
-- (void)updateContentFrame{
-
-    CGFloat width = CGRectGetWidth(self.scrollView.bounds);
-    CGFloat height = CGRectGetHeight(self.scrollView.bounds);
-    
-    self.scrollView.contentOffset = CGPointMake(width, 0.0);
-    
-    self.leftImageV.frame = CGRectMake(0, 0.0, width, height);
-    self.centerImageV.frame = CGRectMake(width, 0.0, width, height);
-    self.rightImageV.frame = CGRectMake(width+width, 0.0, width, height);
     
     if (pagesCount > 0) {
         
@@ -385,7 +333,7 @@
 }
 
 - (void)updateImagesContent{
-
+    
     if ([self.delegate respondsToSelector:@selector(ltImageScrollView:imageAtIndex:imageView:)]) {
         
         [self.delegate ltImageScrollView:self
@@ -400,26 +348,36 @@
                             imageAtIndex:self.rightPageIndex
                                imageView:self.rightImageV.imageView];
     }
+    
+    CGFloat width = CGRectGetWidth(self.bounds);
+    CGFloat height = CGRectGetHeight(self.bounds);
+    
+    self.scrollView.contentOffset = CGPointMake(width, 0.0);
+    
+    if (self.pullStyle) {
+        
+        self.leftImageV.frame = CGRectMake(0, 0.0, width, height);
+        self.centerImageV.frame = CGRectMake(width, 0.0, width, height);
+        self.rightImageV.frame = CGRectMake(width+width, 0.0, width, height);
+    }
 }
 
 - (void)timerPause{
-
-    if (!_timer) {
-        
-        return;
-    }
     
     [self.timer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)timerResume{
     
-    [self.timer setFireDate:[NSDate date]];
+    [self timerResumeAfter:self.scrollDuration];
 }
 
 - (void)timerResumeAfter:(NSTimeInterval)timeInterval{
     
-    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
+    if (pagesCount>1) {
+        
+        [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
+    }
 }
 #pragma mark click Action
 - (void)scrollContentClick:(UIControl *)control{
@@ -506,7 +464,6 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 
-    //NSLog(@"scrollViewDidEndDecelerating");
     scrollView.userInteractionEnabled = YES;
     CGFloat width = CGRectGetWidth(self.scrollView.bounds);
     NSInteger index = round(scrollView.contentOffset.x/width);
@@ -536,22 +493,16 @@
 - (id<CAAction>)actionForLayer:(CALayer *)_layer forKey:(NSString *)event {
     //    [CATransaction setValue:[NSNumber numberWithFloat:0.0f] forKey:kCATransactionAnimationDuration];
 
-    if ([event isEqualToString:kCAOnOrderOut]) {
+    if (_layer == self.layer) {
         
-        if (_timer&&_timer.isValid) {
-            [_timer invalidate];
-            _timer = nil;
-        }
-    }
-    if ([event isEqualToString:kCAOnOrderIn] || [event isEqualToString:kCAOnOrderOut]) {
         return self;
     }
-    
-    return nil;
+
+    return [super actionForLayer:_layer forKey:event];
 }
 
 - (void)runActionForKey:(NSString *)key object:(id)anObject arguments:(NSDictionary *)dict {
-
+    
     if (self.autoScroll) {
         
         if ([key isEqualToString:kCAOnOrderIn]) {
@@ -562,47 +513,6 @@
             
             [self timerPause];
         }
-    }
-}
-
-- (void)handleStatusBarOrientationDidChange:(NSNotification *)notification{
-    //1.获取 当前设备 实例
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    switch (orientation) {
-            
-        case UIInterfaceOrientationPortrait:
-        case UIInterfaceOrientationPortraitUpsideDown:
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:{
-            
-            if (pagesCount == 0) {
-                
-                [self lt_reloadContents];
-            }
-            else {
-                
-                CGFloat width = CGRectGetWidth(self.scrollView.bounds);
-                
-                if (pagesCount>1) {
-                    
-                    self.scrollView.scrollEnabled = YES;
-                    [self.scrollView setContentSize:CGSizeMake(width*3, 0)];
-                }
-                else{
-                    
-                    self.scrollView.scrollEnabled = NO;
-                    [self.scrollView setContentSize:CGSizeMake(width, 0)];
-                }
-                [self updateContentFrame];
-            }
-            break;
-        }
-        case UIInterfaceOrientationUnknown:
-            break;
-        default:
-            NSLog(@"无法辨识");
-            break;
     }
 }
 
